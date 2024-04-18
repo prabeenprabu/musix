@@ -18,6 +18,7 @@ import ArtWork from './components/ArtWork';
 import MainHeader from './components/MainHeader';
 import SideMenu from './components/SideMenu';
 import './App.css';
+// import axios from 'axios';
 
 class App extends Component {
   static audio;
@@ -33,11 +34,12 @@ class App extends Component {
 
     if (!hashParams.access_token) {
       const client_id = '401034a00cc44c4cb770dd0f7a5f8080';
-      const redirect_uri = 'http://localhost:3000/callback';
+      const redirect_uri = 'http://localhost:3000/';
       window.location.href = `https://accounts.spotify.com/authorize?client_id=${client_id}&scope=playlist-read-private%20playlist-read-collaborative%20playlist-modify-public%20user-read-recently-played%20playlist-modify-private%20ugc-image-upload%20user-follow-modify%20user-follow-read%20user-library-read%20user-library-modify%20user-read-private%20user-read-email%20user-top-read%20user-read-playback-state&response_type=token&redirect_uri=${redirect_uri}`;
     } else {
       // console.log(hashParams);
       this.props.setToken(hashParams.access_token);
+      window.history.pushState({}, null, '/');
     }
   }
 
@@ -72,12 +74,24 @@ class App extends Component {
     }
   };
 
-  audioControl = (song) => {
+  audioControl = async (song) => {
     const { playSong, stopSong } = this.props;
 
     if (this.audio === undefined) {
       playSong(song.track);
+      // this.audio = new Audio(song.track.preview_url);
+
+      // try {
+      //   const response = await axios.GET(song.track.href);
+      //   const trackUrl = response.data.preview_url;
+      //   this.setState({ trackUrl });
+      //   console.log(trackUrl);
+      // } catch (error) {
+      //   console.error('Error fetching track:', error);
+      // }
       this.audio = new Audio(song.track.preview_url);
+      console.log(song.track);
+      console.log(song.track.preview_url);
       this.audio.play();
     } else {
       stopSong();
