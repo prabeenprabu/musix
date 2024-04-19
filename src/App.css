@@ -1,3 +1,9 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
 body,
 p,
 h1,
@@ -56,17 +62,35 @@ body {
   bottom: 10px;
   width: 180px;
   overflow-y: auto;
+  transition: left 0.3s ease; /* Add transition for smooth animation */
 }
 
 .main-section {
-  width: 900px;
+  width: calc(100% - 200px);
   position: relative;
   left: 200px;
   padding: 0 10px;
+  transition: width 0.3s ease; /* Add transition for smooth animation */
 }
 
 .main-section-container {
   position: relative;
   top: 50px;
   padding-bottom: 100px;
+}
+
+/* Media query for responsive layout */
+@media (max-width: 768px) {
+  .app-container {
+    flex-direction: column; /* Change flex direction to column for responsive layout */
+  }
+
+  .left-side-section {
+    left: -200px; /* Move side section off-screen by default */
+  }
+
+  .main-section {
+    width: 100%; /* Occupy full width of the screen */
+    left: 0; /* Reset left position */
+  }
 }
